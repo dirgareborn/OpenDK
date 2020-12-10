@@ -22,7 +22,8 @@ use function years_list;
 
 class EpidemiPenyakitController extends Controller
 {
-    
+   
+
     public function __construct()
     {
         parent::__construct();
@@ -36,7 +37,7 @@ class EpidemiPenyakitController extends Controller
     public function index()
     {
         $page_title       = 'Epidemi Penyakit';
-        $page_description = 'Data Epidemi Penyakit ' . $this->sebutan_wilayah. ' ' .$this->nama_wilayah;
+        $page_description = 'Data Epidemi Penyakit ';
         return view('data.epidemi_penyakit.index', compact('page_title', 'page_description'));
     }
 
@@ -92,8 +93,8 @@ class EpidemiPenyakitController extends Controller
         ]);
 
         try {
-            (new ImporEpidemiPenyakit($request->all()))
-                ->queue($request->file('file'));
+            (new ImporEpidemiPenyakit($request))
+                ->import($request->file('file'));
         } catch (Exception $e) {
             return back()->with('error', 'Import data gagal. ' . $e->getMessage());
         }

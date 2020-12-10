@@ -21,7 +21,7 @@ use function years_list;
 
 class ImunisasiController extends Controller
 {
-    
+   
     public $bulan;
     public $tahun;
 
@@ -38,7 +38,7 @@ class ImunisasiController extends Controller
     public function index()
     {
         $page_title       = 'Imunisasi';
-        $page_description = 'Data Cakupan Imunisasi ' . $this->sebutan_wilayah. ' ' .$this->nama_wilayah;
+        $page_description = 'Data Cakupan Imunisasi ';
         return view('data.imunisasi.index', compact('page_title', 'page_description'));
     }
 
@@ -93,8 +93,8 @@ class ImunisasiController extends Controller
         ]);
 
         try {
-            (new ImporImunisasi($request->all()))
-                ->queue($request->file('file'));
+            (new ImporImunisasi($request))
+                ->import($request->file('file'));
         } catch (Exception $e) {
             return back()->with('error', 'Import data gagal. ' . $e->getMessage());
         }
