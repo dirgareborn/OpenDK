@@ -21,7 +21,6 @@ use function years_list;
 
 class ImunisasiController extends Controller
 {
-   
     public $bulan;
     public $tahun;
 

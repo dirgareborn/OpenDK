@@ -21,7 +21,6 @@ use function years_list;
 
 class AKIAKBController extends Controller
 {
-    
     public $bulan;
     public $tahun;
 

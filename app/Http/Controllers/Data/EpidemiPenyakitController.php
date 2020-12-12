@@ -22,8 +22,6 @@ use function years_list;
 
 class EpidemiPenyakitController extends Controller
 {
-   
-
     public function __construct()
     {
         parent::__construct();

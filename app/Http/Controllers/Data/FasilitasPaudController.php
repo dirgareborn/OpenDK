@@ -21,7 +21,6 @@ use function years_list;
 
 class FasilitasPaudController extends Controller
 {
-
     public function __construct()
     {
         parent::__construct();
