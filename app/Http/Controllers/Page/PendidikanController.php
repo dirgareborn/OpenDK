@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Page;
 
 use App\Facades\Counter;
 use App\Http\Controllers\Controller;
@@ -8,25 +8,27 @@ use App\Models\DataDesa;
 use App\Models\Profil;
 use Illuminate\Support\Facades\DB;
 
-use function compact;
 use function config;
 use function intval;
 use function kuartal_bulan;
 use function request;
 use function rtrim;
 use function semester;
-use function str_replace;
 use function view;
 use function years_list;
 
-class PageController extends Controller
+class PendidikanController extends Controller
 {
+    public $nama_kuartal = ['q1' => 'Kuartal 1', 'q2' => 'Kuartal 2', 'q3' => 'Kuartal 3', 'q4' => 'Kuartal 4'];
+    /**
+     * Menampilkan Data Pendidikan
+     **/
     public function showPendidikan()
     {
         Counter::count('statistik.pendidikan');
 
         $data['page_title']       = 'Pendidikan';
-        $data['page_description'] = 'Data Pendidikan Kecamatan';
+        $data['page_description'] = 'Data Pendidikan ' . $this->sebutan_wilayah;
         $defaultProfil            = config('app.default_profile');
         $data['defaultProfil']    = $defaultProfil;
         $data['year_list']        = years_list();
@@ -309,39 +311,5 @@ class PageController extends Controller
             $ids .= $key . ',';
         }
         return rtrim($ids, ',');
-    }
-
-    public function PotensiByKategory($slug)
-    {
-        $kategoriPotensi = DB::table('das_tipe_potensi')->where('slug', $slug)->first();
-        // dd($kategori_id);
-        $page_title       = 'Potensi';
-        $page_description = 'Potensi-Potensi Kecamatan';
-
-        $potensis = DB::table('das_potensi')->where('kategori_id', $kategoriPotensi->id)->simplePaginate(10);
-
-        return view('pages.potensi.index', compact(['page_title', 'page_description', 'potensis', 'kategoriPotensi']));
-    }
-
-    public function PotensiShow($kategori, $slug)
-    {
-        $kategoriPotensi = DB::table('das_tipe_potensi')->where('slug', $slug)->first();
-        // dd($kategori_id);
-        $page_title       = 'Potensi';
-        $page_description = 'Potensi-Potensi Kecamatan';
-        $potensi          = DB::table('das_potensi')->where('nama_potensi', str_replace('-', ' ', $slug))->first();
-        // dd($potensis);
-        return view('pages.potensi.show', compact(['page_title', 'page_description', 'potensi', 'kategoriPotensi']));
-    }
-
-    public function DesaShow($slug)
-    {
-        // Counter::count('desa.show');
-        $page_title       = 'Desa';
-        $page_description = 'Data Desa';
-        $desa             = DB::table('das_data_desa')->where('nama', str_replace('-', ' ', $slug))->first();
-
-        // dd($potensis);
-        return view('pages.desa.desa_show', compact(['page_title', 'page_description', 'desa']));
     }
 }
