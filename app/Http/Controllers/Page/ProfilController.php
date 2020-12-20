@@ -5,17 +5,16 @@ namespace App\Http\Controllers\Page;
 use App\Facades\Counter;
 use App\Http\Controllers\Controller;
 use App\Models\Profil;
-use Illuminate\Support\Facades\DB;
-use SimpleXMLElement;
-
 use function array_merge;
 use function compact;
 use function config;
 use function date;
 use function env;
 use function file_get_contents;
+use Illuminate\Support\Facades\DB;
 use function number_format;
 use function request;
+use SimpleXMLElement;
 use function strtolower;
 use function ucwords;
 use function view;
@@ -24,9 +23,8 @@ use function years_list;
 class ProfilController extends Controller
 {
     /**
-     * Menampilkan Halaman Beranda Kecamatan
+     * Menampilkan Halaman Beranda Kecamatan.
      **/
-
     public function index()
     {
         Counter::count('beranda');
@@ -35,18 +33,19 @@ class ProfilController extends Controller
         // Mengambil berita dari desa untuk ditampilkan diberanda kecamatan
         $rss = file_get_contents('https://demo.opensid.my.id/feed');
         $artikel = new SimpleXMLElement($rss);
+
         return view('pages.post', compact('page_title'))->with('artikel', $artikel);
     }
 
     public function showKependudukanPartial()
     {
-        $data['page_title']       = 'Kependudukan';
+        $data['page_title'] = 'Kependudukan';
         $data['page_description'] = 'Statistik Kependudukan';
-        $defaultProfil            = env('DAS_DEFAULT_PROFIL', '1');
-        $data['defaultProfil']    = $defaultProfil;
-        $data['year_list']        = years_list();
+        $defaultProfil = env('DAS_DEFAULT_PROFIL', '1');
+        $data['defaultProfil'] = $defaultProfil;
+        $data['year_list'] = years_list();
 
-        if (! empty(request('kid')) && ! empty(request('did')) && request('y')) {
+        if (!empty(request('kid')) && !empty(request('did')) && request('y')) {
             $data = array_merge($data, $this->createDashboardKependudukan(request('kid'), request('did'), request('y')));
         }
 
@@ -66,7 +65,7 @@ class ProfilController extends Controller
         if ($did != 'ALL') {
             $query_total_penduduk->where('das_penduduk.desa_id', '=', $did);
         }
-        $total_penduduk         = $query_total_penduduk->count();
+        $total_penduduk = $query_total_penduduk->count();
         $data['total_penduduk'] = number_format($total_penduduk);
 
         // Get Total Lakilaki
@@ -77,7 +76,7 @@ class ProfilController extends Controller
         if ($did != 'ALL') {
             $query_total_lakilaki->where('das_penduduk.desa_id', '=', $did);
         }*/
-        $total_lakilaki         = $query_total_penduduk->where('sex', '=', 1)->count();
+        $total_lakilaki = $query_total_penduduk->where('sex', '=', 1)->count();
         $data['total_lakilaki'] = number_format($total_lakilaki);
 
         // Get Total Perempuan
@@ -90,7 +89,7 @@ class ProfilController extends Controller
         if ($did != 'ALL') {
             $query_total_perempuan->where('das_penduduk.desa_id', '=', $did);
         }
-        $total_perempuan         = $query_total_perempuan->count();
+        $total_perempuan = $query_total_perempuan->count();
         $data['total_perempuan'] = number_format($total_perempuan);
 
         // Get Total Disabilitas
@@ -103,19 +102,19 @@ class ProfilController extends Controller
         if ($did != 'ALL') {
             $query_total_disabilitas->where('das_penduduk.desa_id', '=', $did);
         }
-        $total_disabilitas         = $query_total_disabilitas->count();
+        $total_disabilitas = $query_total_disabilitas->count();
         $data['total_disabilitas'] = number_format($total_disabilitas);
 
         if ($total_penduduk == 0) {
-            $data['ktp_wajib']            = 0;
-            $data['ktp_terpenuhi']        = 0;
+            $data['ktp_wajib'] = 0;
+            $data['ktp_terpenuhi'] = 0;
             $data['ktp_persen_terpenuhi'] = 0;
 
-            $data['akta_terpenuhi']        = 0;
+            $data['akta_terpenuhi'] = 0;
             $data['akta_persen_terpenuhi'] = 0;
 
-            $data['aktanikah_wajib']            = 0;
-            $data['aktanikah_terpenuhi']        = 0;
+            $data['aktanikah_wajib'] = 0;
+            $data['aktanikah_terpenuhi'] = 0;
             $data['aktanikah_persen_terpenuhi'] = 0;
         } else {
             // Get Data KTP Penduduk Terpenuhi
@@ -141,11 +140,11 @@ class ProfilController extends Controller
                 $query_ktp_terpenuhi->where('das_penduduk.desa_id', '=', $did);
             }
             $query_ktp_terpenuhi->where('ktp_el', '=', 1);
-            $ktp_terpenuhi        = $query_ktp_terpenuhi->count();
+            $ktp_terpenuhi = $query_ktp_terpenuhi->count();
             $ktp_persen_terpenuhi = ($ktp_wajib - $ktp_terpenuhi) / $ktp_wajib * 100;
 
-            $data['ktp_wajib']            = number_format($ktp_wajib);
-            $data['ktp_terpenuhi']        = number_format($ktp_terpenuhi);
+            $data['ktp_wajib'] = number_format($ktp_wajib);
+            $data['ktp_terpenuhi'] = number_format($ktp_terpenuhi);
             $data['ktp_persen_terpenuhi'] = number_format($ktp_persen_terpenuhi);
 
             // Get Data Akta Penduduk Terpenuhi
@@ -159,9 +158,9 @@ class ProfilController extends Controller
             if ($did != 'ALL') {
                 $query_akta_terpenuhi->where('das_penduduk.desa_id', '=', $did);
             }
-            $akta_terpenuhi                = $query_akta_terpenuhi->count();
-            $akta_persen_terpenuhi         = ($total_penduduk - $akta_terpenuhi) / $total_penduduk * 100;
-            $data['akta_terpenuhi']        = number_format($akta_terpenuhi);
+            $akta_terpenuhi = $query_akta_terpenuhi->count();
+            $akta_persen_terpenuhi = ($total_penduduk - $akta_terpenuhi) / $total_penduduk * 100;
+            $data['akta_terpenuhi'] = number_format($akta_terpenuhi);
             $data['akta_persen_terpenuhi'] = number_format($akta_persen_terpenuhi);
 
             // Get Data Akta Nikah Penduduk Terpenuhi
@@ -189,14 +188,14 @@ class ProfilController extends Controller
             if ($did != 'ALL') {
                 $query_aktanikah_terpenuhi->where('das_penduduk.desa_id', '=', $did);
             }
-            $aktanikah_terpenuhi                = $query_aktanikah_terpenuhi->count();
-            $data['aktanikah_wajib']            = number_format(0);
-            $data['aktanikah_terpenuhi']        = number_format(0);
+            $aktanikah_terpenuhi = $query_aktanikah_terpenuhi->count();
+            $data['aktanikah_wajib'] = number_format(0);
+            $data['aktanikah_terpenuhi'] = number_format(0);
             $data['aktanikah_persen_terpenuhi'] = number_format(0);
             if ($aktanikah_wajib != 0) {
-                $aktanikah_persen_terpenuhi         = ($aktanikah_terpenuhi / $aktanikah_wajib) * 100;
-                $data['aktanikah_wajib']            = number_format($aktanikah_wajib);
-                $data['aktanikah_terpenuhi']        = number_format($aktanikah_terpenuhi);
+                $aktanikah_persen_terpenuhi = ($aktanikah_terpenuhi / $aktanikah_wajib) * 100;
+                $data['aktanikah_wajib'] = number_format($aktanikah_wajib);
+                $data['aktanikah_terpenuhi'] = number_format($aktanikah_terpenuhi);
                 $data['aktanikah_persen_terpenuhi'] = number_format($aktanikah_persen_terpenuhi);
             }
         }
@@ -221,7 +220,7 @@ class ProfilController extends Controller
     public function StrukturPemerintahan()
     {
         $defaultProfil = config('app.default_profile');
-        $profil        = Profil::where('kecamatan_id', $defaultProfil)->first();
+        $profil = Profil::where('kecamatan_id', $defaultProfil)->first();
 
         $dokumen = DB::table('das_form_dokumen')->take(5)->get();
 
@@ -229,6 +228,7 @@ class ProfilController extends Controller
         if (isset($profil)) {
             $page_description = ucwords(strtolower($profil->kecamatan->nama));
         }
+
         return view('pages.profil.strukturpemerintahan', compact('page_title', 'page_description', 'profil'));
     }
 
@@ -236,13 +236,13 @@ class ProfilController extends Controller
     {
         Counter::count('profil.kependudukan');
 
-        $data['page_title']       = 'Kependudukan';
+        $data['page_title'] = 'Kependudukan';
         $data['page_description'] = 'Statistik Kependudukan';
-        $defaultProfil            = config('app.default_profile');
-        $data['defaultProfil']    = $defaultProfil;
-        $data['year_list']        = years_list();
-        $data['list_kecamatan']   = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
-        $data['list_desa']        = DB::table('das_data_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
+        $defaultProfil = config('app.default_profile');
+        $data['defaultProfil'] = $defaultProfil;
+        $data['year_list'] = years_list();
+        $data['list_kecamatan'] = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
+        $data['list_desa'] = DB::table('das_data_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
 
         $data = array_merge($data, $this->createDashboardKependudukan($defaultProfil, 'ALL', date('Y')));
 
@@ -252,7 +252,7 @@ class ProfilController extends Controller
     public function VisiMisi()
     {
         $defaultProfil = config('app.default_profile');
-        $profil        = Profil::where('kecamatan_id', $defaultProfil)->first();
+        $profil = Profil::where('kecamatan_id', $defaultProfil)->first();
 
         $dokumen = DB::table('das_form_dokumen')->take(5)->get();
 
@@ -260,6 +260,7 @@ class ProfilController extends Controller
         if (isset($profil)) {
             $page_description = ucwords(strtolower($profil->kecamatan->nama));
         }
+
         return view('pages.profil.visimisi', compact('page_title', 'page_description', 'profil'));
     }
 
@@ -267,11 +268,12 @@ class ProfilController extends Controller
     {
         $defaultProfil = config('app.default_profile');
 
-        $profil     = Profil::where('kecamatan_id', $defaultProfil)->first();
+        $profil = Profil::where('kecamatan_id', $defaultProfil)->first();
         $page_title = 'Sejarah';
         if (isset($profil)) {
             $page_description = ucwords(strtolower($profil->kecamatan->nama));
         }
+
         return view('pages.profil.sejarah', compact('page_title', 'page_description', 'profil'));
     }
 
@@ -287,7 +289,7 @@ class ProfilController extends Controller
 
         $page_title = 'Profil';
         if (isset($profil)) {
-            $page_description = ucwords(strtolower($this->sebutan_wilayah . ' ' . $profil->kecamatan->nama));
+            $page_description = ucwords(strtolower($this->sebutan_wilayah.' '.$profil->kecamatan->nama));
         }
 
         return view('pages.profil.show_profil', compact('page_title', 'page_description', 'profil', 'defaultProfil', 'dokumen'));

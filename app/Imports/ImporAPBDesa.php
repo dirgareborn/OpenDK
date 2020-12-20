@@ -12,7 +12,7 @@ class ImporAPBDesa implements ToModel, WithHeadingRow
 {
     use Importable;
 
-    /** @var Request $request */
+    /** @var Request */
     protected $request;
 
     public function __construct(Request $request)

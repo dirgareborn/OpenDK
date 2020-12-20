@@ -49,7 +49,7 @@ class Profil extends Model
     public static function getProfilTanpaDataUmum()
     {
         $data_umums = DataUmum::get();
-        $ids        = [];
+        $ids = [];
         foreach ($data_umums as $val) {
             $ids[] = $val->kecamatan_id;
         }

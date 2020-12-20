@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Page;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profil;
-use Illuminate\Support\Facades\DB;
-
 use function env;
+use Illuminate\Support\Facades\DB;
 use function number_format;
 use function request;
 use function view;
@@ -15,79 +14,79 @@ use function years_list;
 class DashboardController extends Controller
 {
     /**
-     * Menampilkan Data Kesehatan
+     * Menampilkan Data Kesehatan.
      **/
     public function showKesehatan()
     {
-        $data['page_title']       = 'Kesehatan';
+        $data['page_title'] = 'Kesehatan';
         $data['page_description'] = 'Data Kesehatan';
-        $defaultProfil            = env('KD_DEFAULT_PROFIL', '1');
-        $data['defaultProfil']    = $defaultProfil;
-        $data['year_list']        = years_list();
-        $data['list_kecamatan']   = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
-        $data['list_desa']        = DB::table('ref_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
+        $defaultProfil = env('KD_DEFAULT_PROFIL', '1');
+        $data['defaultProfil'] = $defaultProfil;
+        $data['year_list'] = years_list();
+        $data['list_kecamatan'] = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
+        $data['list_desa'] = DB::table('ref_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
 
         return view('dashboard.kesehatan.show_kesehatan')->with($data);
     }
 
     /**
-     * Menampilkan Data Program Bantuan
+     * Menampilkan Data Program Bantuan.
      **/
     public function showProgramBantuan()
     {
-        $data['page_title']       = 'Program Bantuan';
+        $data['page_title'] = 'Program Bantuan';
         $data['page_description'] = 'Data Program Bantuan';
-        $defaultProfil            = env('KD_DEFAULT_PROFIL', '1');
-        $data['defaultProfil']    = $defaultProfil;
-        $data['year_list']        = years_list();
-        $data['list_kecamatan']   = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
-        $data['list_desa']        = DB::table('ref_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
+        $defaultProfil = env('KD_DEFAULT_PROFIL', '1');
+        $data['defaultProfil'] = $defaultProfil;
+        $data['year_list'] = years_list();
+        $data['list_kecamatan'] = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
+        $data['list_desa'] = DB::table('ref_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
 
         return view('dashboard.programBantuan')->with($data);
     }
 
     /**
-     * Menampilkan Data Anggaran Dan realisasi Kecamatan
+     * Menampilkan Data Anggaran Dan realisasi Kecamatan.
      **/
     public function showAnggaranDanRealisasi()
     {
-        $data['page_title']       = 'Anggaran Dan realisasi Kecamatan';
+        $data['page_title'] = 'Anggaran Dan realisasi Kecamatan';
         $data['page_description'] = 'Data Anggaran Dan realisasi Kecamatan';
-        $defaultProfil            = env('KD_DEFAULT_PROFIL', '1');
-        $data['defaultProfil']    = $defaultProfil;
-        $data['year_list']        = years_list();
-        $data['list_kecamatan']   = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
-        $data['list_desa']        = DB::table('ref_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
+        $defaultProfil = env('KD_DEFAULT_PROFIL', '1');
+        $data['defaultProfil'] = $defaultProfil;
+        $data['year_list'] = years_list();
+        $data['list_kecamatan'] = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
+        $data['list_desa'] = DB::table('ref_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
 
         return view('dashboard.anggaranDanRealisasi')->with($data);
     }
 
     /**
-     * Menampilkan Data Anggaran Dan realisasi Kecamatan
+     * Menampilkan Data Anggaran Dan realisasi Kecamatan.
      **/
     public function showAnggaranDesa()
     {
-        $data['page_title']       = 'APBDes';
+        $data['page_title'] = 'APBDes';
         $data['page_description'] = 'Kecamatan';
-        $defaultProfil            = env('KD_DEFAULT_PROFIL', '1');
-        $data['defaultProfil']    = $defaultProfil;
-        $data['year_list']        = years_list();
-        $data['list_kecamatan']   = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
-        $data['list_desa']        = DB::table('ref_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
+        $defaultProfil = env('KD_DEFAULT_PROFIL', '1');
+        $data['defaultProfil'] = $defaultProfil;
+        $data['year_list'] = years_list();
+        $data['list_kecamatan'] = Profil::with('kecamatan')->orderBy('kecamatan_id', 'desc')->get();
+        $data['list_desa'] = DB::table('ref_desa')->select('*')->where('kecamatan_id', '=', $defaultProfil)->get();
 
         return view('dashboard.anggaranDesa')->with($data);
     }
 
     public function getChartAnggaranRealisasi()
     {
-        $kid  = request('kid');
-        $did  = request('did');
+        $kid = request('kid');
+        $did = request('did');
         $year = request('y');
 
         // Grafik Data Pendidikan
         $data_pendidikan = [];
         if ($year == 'ALL') {
-            $data_pendidikan['sum']   = [
+            $data_pendidikan['sum'] = [
                 'total_belanja'                     => number_format(7077753880),
                 'total_belanja_persen'              => number_format(100),
                 'selisih_anggaran_realisasi'        => number_format(0),

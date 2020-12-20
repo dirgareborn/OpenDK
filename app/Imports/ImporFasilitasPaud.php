@@ -3,18 +3,17 @@
 namespace App\Imports;
 
 use App\Models\FasilitasPAUD;
+use function config;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-use function config;
-
 class ImporFasilitasPaud implements ToModel, WithHeadingRow
 {
     use Importable;
 
-    /** @var Request $request */
+    /** @var Request */
     protected $request;
 
     public function __construct(Request $request)

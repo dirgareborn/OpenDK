@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Response;
-
 use function captcha_img;
+use Illuminate\Http\Response;
 use function response;
 use function view;
 
@@ -27,8 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data['page_title']       = 'Dashboard';
+        $data['page_title'] = 'Dashboard';
         $data['page_description'] = 'Selamat Datang di openDK';
+
         return view('home')->with($data);
     }
 

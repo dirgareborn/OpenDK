@@ -3,13 +3,12 @@
 namespace App\Imports;
 
 use App\Models\Penduduk;
+use function config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
-use function config;
 use function now;
 use function substr;
 
@@ -27,10 +26,10 @@ class ImporPenduduk implements ToCollection, WithHeadingRow
     public function __construct(Request $request)
     {
         $this->kecamatan_id = config('app.default_profile');
-        $this->provinsi_id  = substr($this->kecamatan_id, 0, 2);
+        $this->provinsi_id = substr($this->kecamatan_id, 0, 2);
         $this->kabupaten_id = substr($this->kecamatan_id, 0, 5);
-        $this->tahun        = $request->input('tahun');
-        $this->desa_id      = $request->input('desa_id');
+        $this->tahun = $request->input('tahun');
+        $this->desa_id = $request->input('desa_id');
     }
 
     /**
@@ -91,7 +90,7 @@ class ImporPenduduk implements ToCollection, WithHeadingRow
 
             Penduduk::updateOrInsert([
                 'desa_id'      => $insert['desa_id'],
-                'id_pend_desa' => $insert['id_pend_desa']
+                'id_pend_desa' => $insert['id_pend_desa'],
             ], $insert);
         }
     }

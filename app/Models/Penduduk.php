@@ -7,14 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Penduduk extends Model
 {
     public $incrementing = false;
-    protected $table     = 'das_penduduk';
-    protected $fillable  = [];
-    protected $guarded   = [];
+    protected $table = 'das_penduduk';
+    protected $fillable = [];
+    protected $guarded = [];
 
     /**
-     * Relation Methods
+     * Relation Methods.
      * */
-
     public function pekerjaan()
     {
         return $this->hasOne(Pekerjaan::class, 'id', 'pekerjaan_id');

@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Data;
 use App\Http\Controllers\Controller;
 use App\Models\DataUmum;
 use App\Models\Profil;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Yajra\DataTables\DataTables;
-
 use function back;
 use function compact;
 use function config;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use function json_encode;
 use function redirect;
 use function request;
@@ -20,6 +18,7 @@ use function route;
 use function strtolower;
 use function ucwords;
 use function view;
+use Yajra\DataTables\DataTables;
 
 class DataUmumController extends Controller
 {
@@ -30,17 +29,16 @@ class DataUmumController extends Controller
      */
     public function index()
     {
-        $data_umum        = DataUmum::where('kecamatan_id', config('app.default_profile'))->first();
-        $page_title       = 'Ubah Data Umum';
-        $page_description = ucwords(strtolower($this->sebutan_wilayah).' : ' . $data_umum->kecamatan->nama);
+        $data_umum = DataUmum::where('kecamatan_id', config('app.default_profile'))->first();
+        $page_title = 'Ubah Data Umum';
+        $page_description = ucwords(strtolower($this->sebutan_wilayah).' : '.$data_umum->kecamatan->nama);
 
         return view('data.data_umum.edit', compact('page_title', 'page_description', 'data_umum'));
     }
 
     /**
-     * Return datatable Data Umum
+     * Return datatable Data Umum.
      */
-
     public function getDataUmum()
     {
         return DataTables::of(DataUmum::with(['Kecamatan'])->select(['id', 'kecamatan_id', 'tipologi', 'luas_wilayah', 'jumlah_penduduk', 'bts_wil_utara', 'bts_wil_timur', 'bts_wil_selatan', 'bts_wil_barat']))
@@ -61,9 +59,9 @@ class DataUmumController extends Controller
      */
     public function create()
     {
-        $page_title       = 'Buat';
+        $page_title = 'Buat';
         $page_description = 'Data Umum Baru';
-        $data_umum        = new DataUmum();
+        $data_umum = new DataUmum();
 
         return view('data.data_umum.create', compact('page_title', 'page_description', 'data_umum'));
     }
@@ -104,6 +102,7 @@ class DataUmumController extends Controller
                 'kepadatan_penduduk'     => 'required',
             ]);
             $profil->save();
+
             return redirect()->route('data.data-umum.index')->with('success', 'Data Umum berhasil disimpan!');
         } catch (Exception $e) {
             return back()->withInput()->with('error', 'Data Umum gagal disimpan!');
@@ -113,7 +112,8 @@ class DataUmumController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -124,14 +124,15 @@ class DataUmumController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
     {
-        $data_umum        = DataUmum::findOrFail($id);
-        $page_title       = 'Ubah';
-        $page_description = 'Data Umum Kecamatan ' . ucwords(strtolower($data_umum->kecamatan->nama));
+        $data_umum = DataUmum::findOrFail($id);
+        $page_title = 'Ubah';
+        $page_description = 'Data Umum Kecamatan '.ucwords(strtolower($data_umum->kecamatan->nama));
 
         return view('data.data_umum.edit', compact('page_title', 'page_description', 'data_umum'));
     }
@@ -139,7 +140,8 @@ class DataUmumController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function update(Request $request, $id)
@@ -183,7 +185,8 @@ class DataUmumController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)

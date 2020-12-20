@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PendudukRequest;
 use App\Jobs\PendudukQueueJob;
 use Illuminate\Http\JsonResponse;
-
 use function response;
 
 class PendudukController extends Controller
