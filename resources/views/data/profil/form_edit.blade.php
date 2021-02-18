@@ -56,7 +56,7 @@
         </div>
         <div class="form-group">
             <label class="control-label col-md-4 col-sm-3 col-xs-12">File Struktur Organisasi</label>
-
+            
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input type="file" id="file_struktur" name="file_struktur_organisasi" accept="image/*" class="validate form-control"/>
                     <br>
