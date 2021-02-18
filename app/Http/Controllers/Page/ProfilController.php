@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Page;
 use App\Facades\Counter;
 use App\Http\Controllers\Controller;
 use App\Models\Profil;
+use App\Models\Pegawai  ;
 use Illuminate\Support\Facades\DB;
 use SimpleXMLElement;
 
@@ -53,6 +54,11 @@ class ProfilController extends Controller
         if (isset($profil)) {
             $page_description = ucwords(strtolower($profil->kecamatan->nama));
         }
+
+        $pegawais = Pegawai::with('jabatan')->get();
+
+        
+
         return view('pages.profil.strukturpemerintahan', compact('page_title', 'page_description', 'profil'));
     }
 

@@ -1,0 +1,12 @@
+#chart-container {
+  font-family: Arial;
+  height: 250px;
+  border: 2px dashed #aaa;
+  border-radius: 5px;
+  overflow: auto;
+  text-align: center;
+}
+.orgchart .node.matched {
+  background-color: rgba(238, 217, 54, 0.5);
+}
+
