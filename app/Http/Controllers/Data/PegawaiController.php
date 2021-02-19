@@ -93,6 +93,7 @@ class PegawaiController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         // Save Request
         try {
             $pegawai           = new Pegawai($request->all());

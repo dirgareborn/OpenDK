@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Page;
 use App\Facades\Counter;
 use App\Http\Controllers\Controller;
 use App\Models\Profil;
-use App\Models\Pegawai  ;
+use App\Models\Pegawai;
+use App\Models\Jabatan;
 use Illuminate\Support\Facades\DB;
 use SimpleXMLElement;
 
@@ -43,23 +44,24 @@ class ProfilController extends Controller
         return view('pages.profil.letakgeografis', compact('page_title', 'page_description', 'profil', 'defaultProfil'));
     }
 
-    public function StrukturPemerintahan()
+    public function StrukturPemerintahan($parent_id = 0)
     {
         $defaultProfil = config('app.default_profile');
         $profil        = Profil::where('kecamatan_id', $defaultProfil)->first();
-
-        $dokumen = DB::table('das_form_dokumen')->take(5)->get();
-
+        
         $page_title = 'Struktur Pemerintahan';
         if (isset($profil)) {
             $page_description = ucwords(strtolower($profil->kecamatan->nama));
         }
 
-        $pegawais = Pegawai::with('jabatan')->get();
+        $jabatans = Jabatan::with('children')->where('parent_id','=',$parent_id)->get()->toJson();
+        // $jabatans = Jabatan::select('nama_jabatan')->with('childrenRecursive')->where('parent_id',$parent_id)->with(['pegawai'=>function($query){
+        //         $query->select('nama_pegawai');
+        // }])->get()->toJson();
 
-        
+        // return $jabatans;
 
-        return view('pages.profil.strukturpemerintahan', compact('page_title', 'page_description', 'profil'));
+        return view('pages.profil.strukturpemerintahan', compact('jabatans','page_title', 'page_description', 'profil'));
     }
 
     public function Kependudukan()

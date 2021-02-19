@@ -78,45 +78,12 @@ function clearFilterResult() {
 
 (function($) {
   $(function() {
-    var ds = {
-      
-      name: "Lao Lao",
-      title: "general manager",
-      children: [
-        {
-          name: "Bo Miao",
-          title: "department manager",
-          children: [
-            { name: "Li Jing", title: "senior engineer" },
-            {
-              name: "Li Xin",
-              title: "senior engineer",
-              children: [
-                { name: "To To", title: "engineer" }
-              ]
-            }
-          ]
-        },
-        {
-          name: "Su Miao",
-          title: "department manager",
-          // children: [
-          //   { name: "Pang Pang", title: "senior engineer" },
-          //   {
-          //     name: "Hei Hei",
-          //     title: "senior engineer",
-          //     children: [
-          //       { name: "Xiang Xiang", title: "UE engineer" }
-          //     ]
-          //   }
-          // ]
-        }
-      ]
-    };
+  
+    var ds ='{{ $jabatans }}';
 
     var oc = $("#chart-container").orgchart({
       data: ds,
-      nodeContent: "title"
+      nodeContent: "nama_jabatan"
     });
     $("#btn-filter-node").on("click", function() {
       filterNodes($("#key-word").val());
