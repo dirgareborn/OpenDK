@@ -50,6 +50,7 @@
         href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,600i,700,700i|Roboto+Condensed:400,700,700i|Roboto:400,400i,500,500i,700,700i&display=swap"
         rel="stylesheet">
         <script src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
+        <style></style>
 </head>
 
 <body class="hold-transition skin-blue layout-top-nav">
@@ -94,11 +95,28 @@
     <!-- ./wrapper -->
     <!-- REQUIRED JS SCRIPTS -->
     <!-- jQuery 3 -->
-    <script src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('/bower_components/jquery/dist/jquery.min.js') }}"></script> --}}
+    <script type="text/javascript" src="{{ asset('/js/jQuery.niceScroll.js') }}"></script>
         <script>
 		setTimeout(function(){
 		$('.preloader_bg').fadeToggle();
 		}, 500);
+        $(document).ready(function ($) {
+	        "use strict";	
+
+        $("html").niceScroll({
+		scrollspeed: 100,
+		mousescrollstep: 38,
+		cursorwidth: 5,
+		cursorborder: 0,
+		cursorcolor: '#333',
+		autohidemode: true,
+		zindex: 999999999,
+		horizrailenabled: false,
+		cursorborderradius: 0,
+	    });
+	});
+		
 	</script>
     <script src="{{ asset('/bower_components/jquery/dist/jquery.socialShare.js') }}"></script>
     <!-- Bootstrap 3.3.7 -->
